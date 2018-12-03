@@ -1,4 +1,4 @@
-import { isArrayOf, isBoolean, isNumber, isObjectOf, isString, isSymbol, isTupleOf } from '.';
+import { isArrayOf, isBoolean, isNumber, isObjectOf, isString, isSymbol, isTupleOf, isInstanceOf } from '.';
 
 test('isString', () => {
   expect(isString('hello world')).toBe(true);
@@ -66,4 +66,10 @@ test('isObjectOf', () => {
   expect(predicate(['hello', 3, true, '222'])).toBe(false);
   expect(predicate(null)).toBe(false);
   expect(predicate({})).toBe(false);
+});
+
+test('isInstanceOf', () => {
+  class Butt {}
+  const predicate = isInstanceOf(Butt);
+  expect(predicate(new Butt())).toBe(true);
 });

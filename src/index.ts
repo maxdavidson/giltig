@@ -1,13 +1,9 @@
 export type TypePredicate<T> = (value: unknown) => value is T;
-export type Primitive = string | number | boolean | null | undefined | symbol | bigint;
-export type UnknownObject = { [_ in keyof any]?: unknown };
-export type UnknownFunction = (...args: unknown[]) => unknown;
 
-export function is<T extends Primitive>(something: T): (value: unknown) => value is T;
-export function is<T>(something: T): (value: unknown) => value is T;
-export function is(something: unknown) {
-  return (value: unknown) => Object.is(value, something);
-}
+type Primitive = string | number | boolean | null | undefined | symbol | bigint;
+type UnknownObject = { [_ in keyof any]?: unknown };
+type UnknownFunction = (...args: any[]) => unknown;
+type UnknownConstructor = new (...args: any[]) => unknown;
 
 // @ts-ignore
 export function isUnknown(value: unknown): value is unknown {
@@ -50,6 +46,12 @@ export function isObject(value: unknown): value is UnknownObject {
   return typeof value === 'object' && value !== null;
 }
 
+export function is<T extends Primitive>(something: T): (value: unknown) => value is T;
+export function is<T>(something: T): (value: unknown) => value is T;
+export function is(something: unknown) {
+  return (value: unknown) => Object.is(value, something);
+}
+
 function applyEither<T, U>(this: T, fn: (value: T) => U) {
   return fn(this);
 }
@@ -78,4 +80,8 @@ export function isArrayOf<T>(predicate: TypePredicate<T>) {
 export function isObjectOf<T extends UnknownObject>(shape: { [K in keyof T]: TypePredicate<T[K]> }) {
   const entries: Array<[keyof T, TypePredicate<keyof T>]> = Object.entries(shape) as any;
   return (value: unknown): value is T => isObject(value) && entries.every(applyObject, value);
+}
+
+export function isInstanceOf<T extends UnknownConstructor>(constructor: T) {
+  return (value: unknown): value is InstanceType<T> => value instanceof constructor;
 }
