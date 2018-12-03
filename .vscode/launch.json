@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug tests",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/jest/bin/jest.js",
+      "args": ["--no-cache", "--runInBand"],
+      "skipFiles": ["<node_internals>/**/*.js", "${workspaceFolder}/node_modules/**/jest*"]
+    }
+  ]
+}

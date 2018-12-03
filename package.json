@@ -1,0 +1,35 @@
+{
+  "name": "giltig",
+  "version": "0.0.0",
+  "repository": "github:maxdavidson/giltig",
+  "author": "Max Davidson <davidsonmax@gmail.com>",
+  "description": "Simple validators utilizing TypeScript type inference",
+  "license": "MIT",
+  "main": "dist/giltig",
+  "module": "dist/giltig.mjs",
+  "types": "dist/giltig.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "build": "rimraf dist && yarn build:rollup && yarn build:dts-bundle",
+    "build:rollup": "rollup --config",
+    "build:dts-bundle": "dts-bundle --name dist/giltig --main .types --outputAsModuleFolder",
+    "format": "prettier --write '**/*.{md,yml,js,json,ts,tsx}'",
+    "typecheck": "tsc --noEmit",
+    "test": "jest",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@types/jest": "^23.3.10",
+    "dts-bundle": "^0.7.3",
+    "jest": "^23.6.0",
+    "prettier": "^1.15.3",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.67.4",
+    "rollup-plugin-typescript2": "^0.18.0",
+    "ts-jest": "^23.10.5",
+    "typescript": "^3.2.1"
+  }
+}
