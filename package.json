@@ -13,7 +13,7 @@
     "build": "rimraf dist && npm run build:rollup && npm run build:dts-bundle",
     "build:rollup": "rollup --config",
     "build:dts-bundle": "dts-bundle --name dist/giltig --main .types --outputAsModuleFolder",
-    "format": "prettier --write '**/*.{md,yml,js,json,ts,tsx}'",
+    "prettier": "prettier --ignore-path=.gitignore '**/*.{md,yml,js,json,ts,tsx}'",
     "typecheck": "tsc --noEmit",
     "test": "jest",
     "prepublishOnly": "npm run build"
