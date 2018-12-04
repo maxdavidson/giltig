@@ -62,7 +62,7 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" >> ~/project/.npmrc
       - run:
           name: Publish package
-          command: npm publish --dry-run
+          command: npm publish
 
 workflows:
   version: 2
@@ -83,8 +83,8 @@ workflows:
             - typecheck
             - prettier
             - test
-#          filters:
-#            tags:
-#              only: /^v.*/
-#            branches:
-#              ignore: /.*/
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
