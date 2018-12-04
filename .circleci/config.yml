@@ -52,6 +52,18 @@ jobs:
       - store_artifacts:
           path: coverage
 
+  deploy:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" >> ~/project/.npmrc
+      - run:
+          name: Publish package
+          command: npm publish --dry-run
+
 workflows:
   version: 2
   test-deploy:
@@ -66,3 +78,13 @@ workflows:
       - test:
           requires:
             - install
+      - deploy:
+          requires:
+            - typecheck
+            - prettier
+            - test
+#          filters:
+#            tags:
+#              only: /^v.*/
+#            branches:
+#              ignore: /.*/
