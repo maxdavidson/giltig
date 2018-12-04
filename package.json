@@ -1,6 +1,6 @@
 {
   "name": "giltig",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "repository": "github:maxdavidson/giltig",
   "author": "Max Davidson <davidsonmax@gmail.com>",
   "description": "Simple validators utilizing TypeScript type inference",
