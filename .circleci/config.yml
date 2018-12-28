@@ -68,16 +68,28 @@ workflows:
   version: 2
   test-deploy:
     jobs:
-      - install
+      - install:
+          filters:
+            tags:
+              only: /.*/
       - typecheck:
           requires:
             - install
+          filters:
+            tags:
+              only: /.*/
       - prettier:
           requires:
             - install
+          filters:
+            tags:
+              only: /.*/
       - test:
           requires:
             - install
+          filters:
+            tags:
+              only: /.*/
       - deploy:
           requires:
             - typecheck
