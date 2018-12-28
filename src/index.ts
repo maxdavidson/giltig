@@ -56,16 +56,12 @@ function applyEither<T, U>(this: T, fn: (value: T) => U) {
   return fn(this);
 }
 
-function applyTuple<T>(this: unknown[], predicate: TypePredicate<T>, index: number) {
-  return predicate(this[index]);
-}
-
-function applyObject<T>(this: UnknownObject, [key, predicate]: [keyof T, TypePredicate<keyof T>]) {
-  return predicate(this[key]);
-}
-
 export function isEither<T extends unknown[]>(...predicates: { [K in keyof T]: TypePredicate<T[K]> }) {
   return (value: unknown): value is T[number] => predicates.some(applyEither, value);
+}
+
+function applyTuple<T>(this: unknown[], predicate: TypePredicate<T>, index: number) {
+  return predicate(this[index]);
 }
 
 export function isTupleOf<T extends unknown[]>(...predicates: { [K in keyof T]: TypePredicate<T[K]> }) {
@@ -73,11 +69,20 @@ export function isTupleOf<T extends unknown[]>(...predicates: { [K in keyof T]: 
     Array.isArray(value) && value.length === predicates.length && predicates.every(applyTuple, value);
 }
 
-export function isArrayOf<T>(predicate: TypePredicate<T>) {
-  return (value: unknown): value is T[] => Array.isArray(value) && value.every(predicate);
+export function isArrayOf<T>(valuesPredicate: TypePredicate<T>) {
+  return (value: unknown): value is T[] => Array.isArray(value) && value.every(valuesPredicate);
 }
 
-export function isObjectOf<T extends UnknownObject>(shape: { [K in keyof T]: TypePredicate<T[K]> }) {
+export function isObjectOf<T>(keysPredicate: TypePredicate<T>) {
+  return (value: unknown): value is { [_ in keyof any]: T } =>
+    isObject(value) && Object.values(value).every(keysPredicate);
+}
+
+function applyObject<T>(this: UnknownObject, [key, predicate]: [keyof T, TypePredicate<keyof T>]) {
+  return predicate(this[key]);
+}
+
+export function isShapeOf<T extends UnknownObject>(shape: { [K in keyof T]: TypePredicate<T[K]> }) {
   const entries: Array<[keyof T, TypePredicate<keyof T>]> = Object.entries(shape) as any;
   return (value: unknown): value is T => isObject(value) && entries.every(applyObject, value);
 }

@@ -1,4 +1,4 @@
-import { isArrayOf, isBoolean, isNumber, isObjectOf, isString, isSymbol, isTupleOf, isInstanceOf } from '.';
+import { isArrayOf, isBoolean, isNumber, isObjectOf, isString, isSymbol, isTupleOf, isInstanceOf, isShapeOf } from '.';
 
 test('isString', () => {
   expect(isString('hello world')).toBe(true);
@@ -55,13 +55,24 @@ test('isTupleOf', () => {
 });
 
 test('isObjectOf', () => {
-  const predicate = isObjectOf({
+  const predicate = isObjectOf(isString);
+
+  expect(predicate({ string: 'hello', number: 42, boolean: true })).toBe(false);
+
+  expect(predicate(['hello', 3, true, '222'])).toBe(false);
+  expect(predicate(null)).toBe(false);
+  expect(predicate({})).toBe(true);
+});
+
+test('isShapeOf', () => {
+  const predicate = isShapeOf({
     string: isString,
     number: isNumber,
     boolean: isBoolean,
   });
 
   expect(predicate({ string: 'hello', number: 42, boolean: true })).toBe(true);
+  expect(predicate({ string: null, number: false, boolean: '33' })).toBe(false);
 
   expect(predicate(['hello', 3, true, '222'])).toBe(false);
   expect(predicate(null)).toBe(false);
