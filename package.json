@@ -25,11 +25,11 @@
     "@types/jest": "^24.0.00",
     "dts-bundle": "^0.7.3",
     "jest": "^24.0.0",
-    "prettier": "^1.15.3",
+    "prettier": "^1.18.2",
     "rimraf": "^2.6.2",
     "rollup": "^1.15.0",
     "rollup-plugin-typescript2": "^0.21.1",
     "ts-jest": "^24.0.0",
-    "typescript": "^3.2.1"
+    "typescript": "^3.5.1"
   }
 }

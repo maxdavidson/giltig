@@ -1,4 +1,18 @@
-import { isArrayOf, isBoolean, isNumber, isObjectOf, isString, isSymbol, isTupleOf, isInstanceOf, isShapeOf } from '.';
+import {
+  isArrayOf,
+  isBoolean,
+  isNumber,
+  isObjectOf,
+  isString,
+  isSymbol,
+  isTupleOf,
+  isInstanceOf,
+  isShapeOf,
+  isEither,
+  isOptional,
+  isUndefined,
+} from '.';
+import { isNull } from 'util';
 
 test('isString', () => {
   expect(isString('hello world')).toBe(true);
@@ -64,19 +78,35 @@ test('isObjectOf', () => {
   expect(predicate({})).toBe(true);
 });
 
-test('isShapeOf', () => {
-  const predicate = isShapeOf({
-    string: isString,
-    number: isNumber,
-    boolean: isBoolean,
+describe('isShapeOf', () => {
+  it('works', () => {
+    const predicate = isShapeOf({
+      string: isString,
+      number: isNumber,
+      boolean: isBoolean,
+    });
+
+    expect(predicate({ string: 'hello', number: 42, boolean: true })).toBe(true);
+    expect(predicate({ string: null, number: false, boolean: '33' })).toBe(false);
+
+    expect(predicate(['hello', 3, true, '222'])).toBe(false);
+    expect(predicate(null)).toBe(false);
+    expect(predicate({})).toBe(false);
   });
 
-  expect(predicate({ string: 'hello', number: 42, boolean: true })).toBe(true);
-  expect(predicate({ string: null, number: false, boolean: '33' })).toBe(false);
+  it('typechecks', () => {
+    interface ExpectedType {
+      string: string;
+      number?: number;
+      readonly boolean?: boolean | null;
+    }
 
-  expect(predicate(['hello', 3, true, '222'])).toBe(false);
-  expect(predicate(null)).toBe(false);
-  expect(predicate({})).toBe(false);
+    isShapeOf<ExpectedType>({
+      string: isString,
+      number: isOptional(isNumber),
+      boolean: isEither(isBoolean, isUndefined, isNull),
+    });
+  });
 });
 
 test('isInstanceOf', () => {
