@@ -1,9 +1,10 @@
 export type TypePredicate<T> = (value: unknown) => value is T;
 
+export type PredicatedType<Predicate extends TypePredicate<unknown>> = Predicate extends TypePredicate<infer T>
+  ? T
+  : never;
+
 type Primitive = string | number | boolean | null | undefined | symbol | bigint;
-type UnknownObject = { [_ in keyof any]?: unknown };
-type UnknownFunction = (...args: any[]) => unknown;
-type UnknownConstructor = new (...args: any[]) => unknown;
 
 // @ts-ignore
 export function isUnknown(value: unknown): value is unknown {
@@ -38,11 +39,11 @@ export function isBigInt(value: unknown): value is bigint {
   return typeof value === 'bigint';
 }
 
-export function isFunction(value: unknown): value is UnknownFunction {
+export function isFunction(value: unknown): value is Function {
   return typeof value === 'function';
 }
 
-export function isObject(value: unknown): value is UnknownObject {
+export function isObject(value: unknown): value is object {
   return typeof value === 'object' && value !== null;
 }
 
@@ -56,15 +57,21 @@ function applyEither<T, U>(this: T, fn: (value: T) => U) {
   return fn(this);
 }
 
-export function isEither<T extends unknown[]>(...predicates: { [K in keyof T]: TypePredicate<T[K]> }) {
+export function isEither<T extends readonly unknown[]>(
+  ...predicates: { readonly [K in keyof T]: TypePredicate<T[K]> }
+) {
   return (value: unknown): value is T[number] => predicates.some(applyEither, value);
+}
+
+export function isOptional<T>(predicate: TypePredicate<T>) {
+  return isEither(isUndefined, predicate);
 }
 
 function applyTuple<T>(this: unknown[], predicate: TypePredicate<T>, index: number) {
   return predicate(this[index]);
 }
 
-export function isTupleOf<T extends unknown[]>(...predicates: { [K in keyof T]: TypePredicate<T[K]> }) {
+export function isTupleOf<T extends unknown[]>(...predicates: { readonly [K in keyof T]: TypePredicate<T[K]> }) {
   return (value: unknown): value is T =>
     Array.isArray(value) && value.length === predicates.length && predicates.every(applyTuple, value);
 }
@@ -74,19 +81,19 @@ export function isArrayOf<T>(valuesPredicate: TypePredicate<T>) {
 }
 
 export function isObjectOf<T>(keysPredicate: TypePredicate<T>) {
-  return (value: unknown): value is { [_ in keyof any]: T } =>
+  return (value: unknown): value is Record<keyof any, T> =>
     isObject(value) && Object.values(value).every(keysPredicate);
 }
 
-function applyObject<T>(this: UnknownObject, [key, predicate]: [keyof T, TypePredicate<keyof T>]) {
+function applyObject<T extends object>(this: T, [key, predicate]: [keyof T, TypePredicate<keyof T>]) {
   return predicate(this[key]);
 }
 
-export function isShapeOf<T extends UnknownObject>(shape: { [K in keyof T]: TypePredicate<T[K]> }) {
-  const entries: Array<[keyof T, TypePredicate<keyof T>]> = Object.entries(shape) as any;
+export function isShapeOf<T extends object>(shape: { readonly [K in keyof T]-?: TypePredicate<T[K]> }) {
+  const entries: readonly [keyof T, TypePredicate<keyof T>][] = Object.entries(shape) as any;
   return (value: unknown): value is T => isObject(value) && entries.every(applyObject, value);
 }
 
-export function isInstanceOf<T extends UnknownConstructor>(constructor: T) {
+export function isInstanceOf<T extends new (...args: any) => any>(constructor: T) {
   return (value: unknown): value is InstanceType<T> => value instanceof constructor;
 }
