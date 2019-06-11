@@ -22,7 +22,7 @@
     "dist"
   ],
   "devDependencies": {
-    "@types/jest": "^24.0.00",
+    "@types/jest": "^24.0.0",
     "dts-bundle": "^0.7.3",
     "jest": "^24.0.0",
     "prettier": "^1.18.2",
