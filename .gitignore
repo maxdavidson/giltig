@@ -6,13 +6,12 @@
 /.rpt2_cache
 /.types
 
-# This is a library so we don't need lock files
-yarn.lock
-package-lock.json
-
 # Logs
 *.log
 
 # VS Code
 .vscode/*
 !.vscode/*.json
+
+# TS incremental
+tsconfig.tsbuildinfo

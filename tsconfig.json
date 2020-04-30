@@ -1,35 +1,33 @@
 {
   "compilerOptions": {
     /* Basic Options */
-    "target": "es5",
-    "module": "es2015",
-    "lib": ["es2017"],
+    "target": "ES2018",
+    "module": "Node16",
+    "lib": ["ES2018", "ES2022.Object"],
     "rootDir": "./src",
-    "declaration": true,
-    "declarationDir": "./.types",
+    "outDir": "./dist",
+    "incremental": true,
+
+    /* Module Resolution Options */
+    "isolatedModules": true,
+    "importsNotUsedAsValues": "error",
+    "preserveValueImports": true,
+
+    /* Output Options */
     "sourceMap": true,
+    "inlineSources": false,
+    "declaration": true,
+    "declarationMap": true,
     "preserveConstEnums": true,
 
     /* Strict Type-Checking Options */
     "strict": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
+    "exactOptionalPropertyTypes": true,
 
     /* Additional Checks */
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-
-    /* Module Resolution Options */
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-
-    /* Source Map Options */
-    "inlineSources": true
-  },
-  "include": ["src"]
+    "noFallthroughCasesInSwitch": true
+  }
 }
