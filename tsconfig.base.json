@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "ES2018",
+    "module": "Node16",
+    "moduleResolution": "Node16",
+    "moduleDetection": "force",
+    "lib": ["ES2017", "ES2022.Object"],
+    "rootDir": "./src",
+    "incremental": true,
+    "composite": true,
+    "noEmit": true,
+    "types": [],
+
+    /* Module Resolution Options */
+    "verbatimModuleSyntax": true,
+
+    /* Output Options */
+    "sourceMap": true,
+    "inlineSources": false,
+    "declaration": true,
+    "declarationMap": true,
+    "preserveConstEnums": true,
+    "removeComments": true,
+    "noErrorTruncation": true,
+
+    /* Strict Type-Checking Options */
+    "strict": true,
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
+
+    /* Additional Checks */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
+  }
+}

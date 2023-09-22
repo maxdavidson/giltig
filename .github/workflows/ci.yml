@@ -1,0 +1,36 @@
+name: CI
+
+on: push
+
+env:
+  CI: true
+  FORCE_COLOR: 3
+  NODE_OPTIONS: "--max-old-space-size=5376" # 75% of 7GB
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Lint & Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/hydrogen
+          check-latest: true
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check formatting
+        run: npm run check-formatting
+
+      - name: Run tests
+        run: npm run test

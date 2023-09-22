@@ -1,0 +1,5 @@
+{
+  "type": "commonjs",
+  "main": "../dist/cjs/strict.js",
+  "types": "../dist/cjs/strict.d.ts"
+}

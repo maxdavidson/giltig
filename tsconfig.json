@@ -1,33 +1,9 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    /* Basic Options */
-    "target": "ES2018",
-    "module": "Node16",
-    "lib": ["ES2018", "ES2022.Object"],
+    "noEmit": false,
     "rootDir": "./src",
-    "outDir": "./dist",
-    "incremental": true,
-
-    /* Module Resolution Options */
-    "isolatedModules": true,
-    "importsNotUsedAsValues": "error",
-    "preserveValueImports": true,
-
-    /* Output Options */
-    "sourceMap": true,
-    "inlineSources": false,
-    "declaration": true,
-    "declarationMap": true,
-    "preserveConstEnums": true,
-
-    /* Strict Type-Checking Options */
-    "strict": true,
-    "exactOptionalPropertyTypes": true,
-
-    /* Additional Checks */
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
-  }
+    "outDir": "./dist/esm"
+  },
+  "include": ["./src/**/*"]
 }
