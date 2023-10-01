@@ -7,10 +7,11 @@
   "license": "MIT",
   "type": "module",
   "engines": {
-    "node": ">=16.20.0"
+    "node": ">=18.18.0"
   },
   "sideEffects": false,
   "main": "./dist/cjs/giltig.js",
+  "types": "./dist/cjs/giltig.d.ts",
   "exports": {
     ".": {
       "require": {
@@ -34,23 +35,22 @@
     }
   },
   "files": [
-    "dist",
-    "strict",
-    "src"
+    "./dist",
+    "./strict",
+    "./src"
   ],
   "scripts": {
     "build": "rm -rf build && npm run build:esm && npm run build:cjs",
     "build:esm": "tsc --project tsconfig.json",
-    "build:cjs": "tsc --project tsconfig.cjs.json && echo '{\"type\":\"commonjs\"}' > dist/cjs/package.json",
+    "build:cjs": "tsc --project tsconfig.cjs.json && echo '{\"type\":\"commonjs\"}' > ./dist/cjs/package.json",
     "pretest": "cd test && tsc --build",
     "test": "node --enable-source-maps --test --test-reporter=spec",
-    "prepublishOnly": "npm run build && npm run check-types",
+    "prepublishOnly": "npm run build && npm run check-exports",
     "check-formatting": "prettier --check .",
-    "check-types": "attw --pack ."
+    "check-exports": "npx -y @arethetypeswrong/cli --pack ."
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.10.0",
-    "@types/node": "^18.17.0",
+    "@types/node": "^18.18.0",
     "prettier": "~3.0.0",
     "typescript": "~5.2.0"
   }

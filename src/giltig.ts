@@ -268,6 +268,3 @@ export function isShapeOf<Type extends object>(
     return true;
   };
 }
-
-// @ts-ignore
-console.log("success!");
