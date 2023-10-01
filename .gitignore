@@ -1,14 +1,7 @@
 .DS_Store
 
-/node_modules
-/dist
-/coverage
-/.rpt2_cache
-/.types
-
-# This is a library so we don't need lock files
-yarn.lock
-package-lock.json
+node_modules/
+dist/
 
 # Logs
 *.log
@@ -16,3 +9,6 @@ package-lock.json
 # VS Code
 .vscode/*
 !.vscode/*.json
+
+# TS incremental
+*.tsbuildinfo

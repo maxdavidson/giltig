@@ -1,35 +1,9 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    /* Basic Options */
-    "target": "es5",
-    "module": "es2015",
-    "lib": ["es2017"],
+    "noEmit": false,
     "rootDir": "./src",
-    "declaration": true,
-    "declarationDir": "./.types",
-    "sourceMap": true,
-    "preserveConstEnums": true,
-
-    /* Strict Type-Checking Options */
-    "strict": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-
-    /* Additional Checks */
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-
-    /* Module Resolution Options */
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-
-    /* Source Map Options */
-    "inlineSources": true
+    "outDir": "./dist/esm"
   },
-  "include": ["src"]
+  "include": ["./src/**/*"]
 }
